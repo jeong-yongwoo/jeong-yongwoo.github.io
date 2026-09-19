@@ -546,6 +546,26 @@ img { max-width: 100%; display: block; }
   background: var(--surface);
 }
 
+/* 본문 안에 들어가는 현장 사진 */
+.photo-figure {
+  margin: var(--gap-3) 0 0;
+  max-width: 420px;
+}
+
+.photo-figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.photo-figure figcaption {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: var(--gap-1);
+}
+
 .work-grid figcaption {
   font-size: 13px;
   color: var(--text-muted);
