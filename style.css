@@ -511,6 +511,48 @@ img { max-width: 100%; display: block; }
   margin-top: var(--gap-1);
 }
 
+/* 작업물 갤러리 (직접 만든 카드뉴스 썸네일)
+   이미지를 추가하려면 <figure> 하나를 복사하고 grid-template-columns 개수만 맞추면 됩니다 */
+.work-gallery { margin-top: var(--gap-4); }
+
+.work-gallery h3 {
+  font-size: 16px;
+  margin-bottom: var(--gap-1);
+}
+
+.work-caption {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: var(--gap-3);
+}
+
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gap-2);
+}
+
+.work-grid figure { margin: 0; }
+
+.work-grid img {
+  width: 100%;
+  /* height:auto 가 없으면 <img> 의 height 속성(1350)이 비율보다 우선해 세로로 늘어납니다 */
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: top;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.work-grid figcaption {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: var(--gap-1);
+  text-align: center;
+}
+
 /* ==========================================================
    수상 · 자격증 · 어학
    ========================================================== */
@@ -664,6 +706,8 @@ html.js .reveal.in {
   .timeline-body::after { display: none; }
 
   .projects { grid-template-columns: 1fr; }
+
+  .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
   .card { padding: var(--gap-3); }
 
