@@ -1,0 +1,714 @@
+/* ==========================================================
+   포트폴리오 — 디자인 토큰
+   색·여백·모서리를 여기서만 바꾸면 사이트 전체에 반영됩니다.
+   ========================================================== */
+:root {
+  /* 색 */
+  --bg:            #ffffff;
+  --surface:       #f7f7f9;
+  --border:        #e7e7ec;
+  --text-strong:   #16161a;
+  --text:          #4b4b55;
+  --text-muted:    #8b8b96;
+  --accent:        #2f4fd8;
+  --accent-soft:   #eef1fe;
+  --accent-text:   #2f4fd8;
+
+  /* 여백 스케일 */
+  --gap-1: 6px;
+  --gap-2: 12px;
+  --gap-3: 20px;
+  --gap-4: 32px;
+  --gap-5: 56px;
+  --gap-6: 88px;
+
+  /* 기타 */
+  --radius:     14px;
+  --radius-sm:  8px;
+  --maxw:       900px;
+  --gutter:     16px;
+  --nav-h:      60px;
+
+  --font: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont,
+          'Malgun Gothic', '맑은 고딕', system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:          #0f0f13;
+    --surface:     #17171d;
+    --border:      #2a2a33;
+    --text-strong: #f3f3f6;
+    --text:        #b9b9c4;
+    --text-muted:  #7d7d8a;
+    --accent:      #8ea3ff;
+    --accent-soft: #1b1f36;
+    --accent-text: #9db0ff;
+  }
+}
+
+/* ==========================================================
+   기본 리셋
+   ========================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.7;
+  font-weight: 400;
+  word-break: keep-all;      /* 한글은 단어 단위로 줄바꿈 */
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  color: var(--text-strong);
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+a {
+  color: var(--accent-text);
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+a:hover { opacity: 0.7; }
+
+img { max-width: 100%; display: block; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* 키보드 사용자를 위한 본문 바로가기 */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--accent);
+  color: #fff;
+  padding: 10px 16px;
+  z-index: 100;
+}
+.skip-link:focus { left: 8px; top: 8px; }
+
+/* ==========================================================
+   레이아웃 공통
+   ========================================================== */
+.wrap {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+.section {
+  padding: var(--gap-6) 0;
+  scroll-margin-top: calc(var(--nav-h) + 16px);
+  border-top: 1px solid var(--border);
+}
+
+.section-head { margin-bottom: var(--gap-4); }
+
+.section-eyebrow {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+  margin-bottom: var(--gap-1);
+}
+
+.section-title { font-size: 30px; }
+
+/* ==========================================================
+   상단 네비게이션 (스크롤을 따라 붙어다님)
+   ========================================================== */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--nav-h);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .nav {
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+.nav-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-3);
+}
+
+.nav-brand {
+  font-weight: 700;
+  color: var(--text-strong);
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: flex;
+  gap: var(--gap-3);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-links::-webkit-scrollbar { display: none; }
+
+.nav-links a {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+}
+.nav-links a:hover { color: var(--text-strong); opacity: 1; }
+.nav-links a.active {
+  color: var(--text-strong);
+  border-bottom-color: var(--accent);
+}
+
+/* ==========================================================
+   히어로 — 이름 / 태그라인 / 연락 버튼
+   ========================================================== */
+.hero {
+  padding: var(--gap-6) 0;
+  border-top: none;
+}
+
+.hero-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-5);
+}
+
+.hero-text { flex: 1 1 auto; min-width: 0; }
+
+.hero-name {
+  font-size: 48px;
+  letter-spacing: -0.035em;
+  margin-bottom: var(--gap-2);
+}
+.hero-name .name-en {
+  display: block;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  margin-top: var(--gap-1);
+}
+
+.hero-tagline {
+  font-size: 20px;
+  color: var(--text);
+  margin-bottom: var(--gap-2);
+}
+
+.hero-affil {
+  font-size: 16px;
+  color: var(--text-muted);
+  margin-bottom: var(--gap-4);
+}
+
+.hero-photo {
+  flex: 0 0 168px;
+  width: 168px;
+  height: 168px;
+  border-radius: 50%;
+  object-fit: cover;
+  /* 증명사진은 세로로 길어서 얼굴 쪽에 맞춰 잘라야 머리가 안 잘립니다 */
+  object-position: center 20%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+/* 연락 버튼 묶음 */
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-2);
+}
+
+.link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--text-strong);
+  font-size: 15px;
+  font-weight: 500;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.link-btn:hover {
+  opacity: 1;
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+.link-btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.link-btn.primary:hover { background: var(--accent); color: #fff; opacity: 0.88; }
+
+/* ==========================================================
+   소개 (About)
+   ========================================================== */
+.about-body {
+  font-size: 18px;
+  max-width: 68ch;
+}
+.about-body p + p { margin-top: var(--gap-3); }
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-1);
+  margin-top: var(--gap-4);
+}
+
+.chip {
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ==========================================================
+   카드 공통
+   ========================================================== */
+.card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--gap-3) var(--gap-4);
+  background: var(--surface);
+}
+
+/* ==========================================================
+   학력
+   ========================================================== */
+.edu-item + .edu-item { margin-top: var(--gap-3); }
+
+.edu-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--gap-2);
+}
+
+.edu-school { font-size: 20px; }
+
+.edu-major { color: var(--text); margin-top: 2px; }
+
+.edu-meta {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-top: var(--gap-1);
+}
+
+.period {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ==========================================================
+   경험 · 활동 타임라인
+   왼쪽 기간 / 오른쪽 내용 (모바일에서는 위아래로 쌓임)
+   ========================================================== */
+.timeline { display: grid; gap: var(--gap-5); }
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: var(--gap-4);
+}
+
+.timeline-body { position: relative; padding-left: var(--gap-3); }
+
+/* 왼쪽 세로선 + 점 */
+.timeline-body::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 4px;
+  width: 2px;
+  background: var(--border);
+}
+.timeline-body::after {
+  content: '';
+  position: absolute;
+  left: -3px;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.item-title { font-size: 19px; }
+
+.item-role {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--accent-text);
+  margin-top: 2px;
+}
+
+.item-summary { margin-top: var(--gap-2); }
+
+/* 성과 불릿 */
+.bullets { margin-top: var(--gap-2); }
+.bullets li {
+  position: relative;
+  padding-left: 16px;
+  margin-top: var(--gap-1);
+  font-size: 16px;
+}
+.bullets li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 12px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--text-muted);
+}
+
+/* ==========================================================
+   프로젝트 카드 그리드
+   ========================================================== */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap-3);
+}
+
+.project {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-2);
+  transition: border-color 0.15s ease;
+}
+.project:hover { border-color: var(--accent); }
+
+.project-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--gap-2);
+}
+
+.project-title { font-size: 19px; }
+
+.project-role {
+  font-size: 15px;
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+.project-desc { font-size: 16px; flex: 1 1 auto; }
+
+.project-result {
+  font-size: 15px;
+  color: var(--text-strong);
+  font-weight: 600;
+  padding-top: var(--gap-2);
+  border-top: 1px dashed var(--border);
+}
+
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.stack span {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  padding: 3px 9px;
+}
+
+.project-link { font-size: 15px; font-weight: 600; }
+
+/* 채널별 수치 목록 (팔로워·게시물 수 등) */
+.metrics { border-top: 1px dashed var(--border); }
+
+.metrics li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px var(--gap-2);
+  padding: var(--gap-1) 0;
+  border-bottom: 1px dashed var(--border);
+}
+
+.metric-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+.metric-label small {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-left: 5px;
+}
+
+.metric-value {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.asof {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: var(--gap-1);
+}
+
+/* ==========================================================
+   수상 · 자격증 · 어학
+   ========================================================== */
+.award-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--gap-3);
+}
+
+.award-group h3 {
+  font-size: 16px;
+  padding-bottom: var(--gap-2);
+  margin-bottom: var(--gap-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.award-group li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--gap-2);
+  padding: var(--gap-1) 0;
+  font-size: 16px;
+}
+
+.award-name { color: var(--text-strong); font-weight: 500; }
+.award-name small {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.award-date {
+  font-size: 14px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================
+   스킬
+   ========================================================== */
+.skill-groups { display: grid; gap: var(--gap-4); }
+
+.skill-group {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: var(--gap-4);
+  align-items: start;
+}
+
+.skill-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-strong);
+  padding-top: 5px;
+}
+
+.skill-tags { display: flex; flex-wrap: wrap; gap: var(--gap-1); }
+
+.skill-tags span {
+  padding: 5px 13px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 15px;
+  color: var(--text);
+}
+
+/* ==========================================================
+   연락처 + 푸터
+   ========================================================== */
+.contact { text-align: center; }
+
+.contact-quote {
+  font-size: 20px;
+  color: var(--text-strong);
+  font-weight: 500;
+  max-width: 48ch;
+  margin: 0 auto var(--gap-4);
+}
+
+.contact-mail {
+  display: inline-block;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: var(--gap-4);
+  letter-spacing: -0.02em;
+}
+
+.contact .links { justify-content: center; }
+
+.footer {
+  padding: var(--gap-4) 0 var(--gap-5);
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+}
+
+/* ==========================================================
+   등장 애니메이션
+   JS가 켜져 있을 때만 숨겼다 보여줍니다 (JS가 꺼져도 내용은 그대로 보임)
+   ========================================================== */
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+html.js .reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  html.js .reveal { opacity: 1; transform: none; transition: none; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================
+   태블릿 이하
+   ========================================================== */
+@media (max-width: 760px) {
+  body { font-size: 16px; }
+
+  :root { --gap-6: 60px; --gap-5: 40px; }
+
+  .hero-inner {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: var(--gap-4);
+  }
+  .hero-name { font-size: 36px; }
+  .hero-tagline { font-size: 18px; }
+  .hero-photo { flex-basis: 108px; width: 108px; height: 108px; }
+
+  .section-title { font-size: 25px; }
+
+  .timeline-item,
+  .skill-group {
+    grid-template-columns: 1fr;
+    gap: var(--gap-2);
+  }
+  .timeline-body { padding-left: 0; }
+  .timeline-body::before,
+  .timeline-body::after { display: none; }
+
+  .projects { grid-template-columns: 1fr; }
+
+  .card { padding: var(--gap-3); }
+
+  .contact-mail { font-size: 20px; word-break: break-all; }
+}
+
+/* ==========================================================
+   인쇄 / PDF 저장 (Ctrl+P → "PDF로 저장" 하면 이력서가 됩니다)
+   ========================================================== */
+@media print {
+  :root {
+    --bg: #fff;
+    --surface: #fff;
+    --border: #ccc;
+    --text-strong: #000;
+    --text: #222;
+    --text-muted: #555;
+    --accent: #000;
+    --accent-soft: #fff;
+    --accent-text: #000;
+    --gap-6: 24px;
+    --gap-5: 18px;
+    --maxw: 100%;
+  }
+
+  @page { margin: 14mm; }
+
+  body { font-size: 11pt; line-height: 1.55; }
+
+  .nav, .skip-link, .footer { display: none !important; }
+
+  html.js .reveal { opacity: 1 !important; transform: none !important; }
+
+  .hero { padding-top: 0; }
+  .hero-name { font-size: 24pt; }
+  .hero-photo { width: 96px; height: 96px; flex-basis: 96px; }
+
+  .section { padding: 16px 0; break-inside: avoid; }
+  .card, .timeline-item, .project { break-inside: avoid; }
+
+  .link-btn, .chip, .stack span, .skill-tags span {
+    border: 1px solid #ccc !important;
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  .projects { grid-template-columns: repeat(2, 1fr); }
+}
